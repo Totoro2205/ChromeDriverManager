@@ -1,5 +1,6 @@
 import platform
 import os
+import stat
 import requests
 import zipfile
 import re
@@ -74,7 +75,10 @@ def get_driver() -> str:
         print(f"Did not find driver in {driver_dir}, downloading from Chrome driver website")
         driver_zip = download_driver()
         unzip_file(driver_zip, driver_dir)
-    return find_driver()
+        driver = find_driver()
+    if not os.access(driver, os.X_OK):
+        os.chmod(driver, stat.S_IEXEC | stat.S_IXUSR)
+    return driver
 
 
 if __name__ == '__main__':
