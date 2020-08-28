@@ -48,8 +48,8 @@ def download_driver() -> str:
     r = requests.get(chrome_driver_center_url, headers=headers)
     soup = BeautifulSoup(r.text, "html.parser")
     chrome_version_series_level3 = chrome_version[:chrome_version.rfind(".")]
-    span = soup.find("span", text=re.compile(f"ChromeDriver {chrome_version_series_level3}\.\d+"))
-    driver_version_link = span.find("a")["href"]
+    anchor = soup.find("a", text=re.compile(f"ChromeDriver {chrome_version_series_level3}\.\d+"))
+    driver_version_link = anchor["href"]
     most_relevant_driver_series = driver_version_link[driver_version_link.rfind(chrome_version_series_level3):-1]
 
     # download the most relevant driver
